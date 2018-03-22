@@ -1,5 +1,5 @@
-const express = require('express');
-const bodyParser = require('body-parser');
+const express      = require('express');
+const bodyParser   = require('body-parser');
 const { ObjectId } = require('mongodb');
 
 const { mongoose } = require("./db/mongoose");
@@ -24,10 +24,7 @@ app.post('/todos', (req, res) => {
 
 app.get("/todos", (req, res) => {
   Todo.find().then((todos) => {
-    res.status(200).send( {
-      todos,
-      message: 'Successfully pulled todos'
-    })
+    res.status(200).send({ todos })
   }, (e) => {
     res.status(400).send(e);
   })
@@ -44,10 +41,7 @@ app.get("/todos/:id", (req, res) => {
     if (!todo) {
       throw new Error('No Id found');
     }
-    res.status(200).send( {
-      todo,
-      message: 'Successfully pulled todo'
-    })
+    res.status(200).send({ todo }) 
   })
   .catch((e) => {
     res.status(400).send({error: e.message});
@@ -57,10 +51,7 @@ app.get("/todos/:id", (req, res) => {
 app.get('/users', (req, res) => {
   User.find()
   .then(users => {
-    res.status(200).json({
-      users,
-      message: 'Successfully pulled all users'
-    })
+    res.status(200).json({ users })
   })
   .catch(error => res.status(400).json({error: error.message}));
 })
@@ -76,10 +67,7 @@ app.get('/users/:id', (req, res) => {
     if (!user) {
       throw new Error('No Id found');
     }
-    res.status(200).json({
-      user,
-      message: 'Successfully pulled user data'
-    })
+    res.status(200).json({ user })
   })
   .catch(error => res.status(400).json({error: error.message}));
 })
