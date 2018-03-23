@@ -50,30 +50,6 @@ app.get("/todos/:id", (req, res) => {
   })
 })
 
-app.get('/users', (req, res) => {
-  User.find()
-  .then(users => {
-    res.status(200).json({ users })
-  })
-  .catch(error => res.status(400).json({error: error.message}));
-})
-
-app.get('/users/:id', (req, res) => {
-  const id = req.params.id;
-  if (!ObjectId.isValid(id)) {
-    return res.status(404).json({ error: 'Invalid ID'});
-  }
-
-  User.findById(id)
-  .then(user => {
-    if (!user) {
-      throw new Error('No Id found');
-    }
-    res.status(200).json({ user })
-  })
-  .catch(error => res.status(400).json({error: error.message}));
-})
-
 app.listen(port, () => {
   console.log(`Server is started on port ${port}`);
 });
