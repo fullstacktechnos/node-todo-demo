@@ -1,13 +1,36 @@
 const { SHA256 } = require("crypto-js");
-
 const jwt = require('jsonwebtoken');
+const bcrypt = require('bcryptjs');
 
-const data = { text: 'my personla text' };
-const token = jwt.sign(data, 'secret');
-console.log(token);
+const password = '123abc!';
 
-const decoded = jwt.verify(token, 'secret');
-console.log(decoded);
+// bcrypt.genSalt(10, (err, salt) => {
+//     console.log(salt);
+//     bcrypt.hash(password, salt, (err, hash) => {
+//         console.log(hash)
+//     })
+// })
+// const salt = "$2a$10$OLd3cNOl1Zc5G1JnId68Mu";
+// //$2a$10$OLd3cNOl1Zc5G1JnId68Mu4sGJl43erpLloAUzwmgzrW6AUWV.Eem
+// bcrypt.hash('123abc!', salt, (err, hash) => {
+//     console.log(hash)
+// })
+
+let hashedPassword = '$2a$10$1ir6IUNZfej7BrLFNcFzfOCeIQnKavX2t.5jOvr1KXMbHm9gecGye';
+//let hashedPassword = '$2a$10$gXL1ulyYn2CbZrfCTPT3R.IeeaZV5HfNxuY/F7rRb8QFlj9erbDQ6';
+// let hashedPassword = '$2a$10$BpbaNnHhlCjVCXwgsO2c6.pVBbluxExDSbjoqkm7ZE9S7onN65r9G';
+
+bcrypt.compare(password, hashedPassword, (err, result) => {
+    console.log(result);
+})
+
+
+// const data = { text: 'my personla text' };
+// const token = jwt.sign(data, 'secret');
+// console.log(token);
+
+// const decoded = jwt.verify(token, 'secret');
+// console.log(decoded);
 
 // const message = "Hi three";
 
