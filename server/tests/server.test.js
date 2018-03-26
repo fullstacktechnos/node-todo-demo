@@ -212,7 +212,7 @@ describe("UPDATE /todos/:id", () => {
       .end(done);
   });
 
-  it("should update the todo", done => {
+  it("should not update the todo", done => {
     const id = todos[0]._id.toHexString();
     const text = "New text fr todo";
     const completed = true;
