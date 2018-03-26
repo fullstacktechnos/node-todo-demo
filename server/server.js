@@ -118,6 +118,25 @@ app.post('/users', (req, res) => {
   })
 })
 
+app.post('/users/login', (req, res) => { 
+  const body = _.pick(req.body, ['email', 'password']);
+  
+  if (!body.email && !body.password) {
+    res.status(404).json({error: 'please send email and password'})
+  }
+
+  let userinfo = {};
+  User.findByCredentials(body.email, body.password)
+  .then(user => {
+    return user.generateAuthToken().then(token => {
+      res.header('x-auth', token).send({ user });
+    })
+  })
+  .catch(err => {
+    res.status(400).json({error: 'Unauthorised'})
+  })
+
+})
 
 app.get('/users/me',authenticate, (req, res) => {
   res.send(req.user);
