@@ -55,8 +55,18 @@ UserSchema.methods.generateAuthToken = function() {
   });
 };
 
+UserSchema.methods.removeToken= function (token) {
+  const user = this;
+
+  return user.update({
+    $pull: {
+      tokens: { token }
+    }
+  })
+}
+
 // Static method attach to model
-UserSchema.statics.findByToken = function(token) {
+UserSchema.statics.findByToken = function (token) {
   const User = this;
   let decoded;
 
@@ -73,7 +83,7 @@ UserSchema.statics.findByToken = function(token) {
   });
 };
 
-UserSchema.statics.findByCredentials = function(email, password) {
+UserSchema.statics.findByCredentials = function (email, password) {
   const User = this;
   return User.findOne({ email }).then( user => {
     if (!user) {
@@ -91,12 +101,11 @@ UserSchema.statics.findByCredentials = function(email, password) {
     })
 
   })
-  
 }
 
 
 //Middle wire by mongoose, it will run before saving user
-UserSchema.pre("save", function(next) {
+UserSchema.pre("save", function (next) {
   const user = this;
 
   if (user.isModified("password")) {

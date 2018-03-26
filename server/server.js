@@ -138,8 +138,21 @@ app.post('/users/login', (req, res) => {
 
 })
 
-app.get('/users/me',authenticate, (req, res) => {
+app.get('/users/me', authenticate, (req, res) => {
   res.send(req.user);
+})
+
+app.delete('/users/me/token/', authenticate, (req, res) => { 
+  const token = req.token;
+ 
+  req.user.removeToken(req.token)
+  .then((result) => {
+    res.status(200).send()
+  })
+  .catch(err => {
+    res.status(400).send()
+  })
+
 })
 
 app.listen(port, () => {
